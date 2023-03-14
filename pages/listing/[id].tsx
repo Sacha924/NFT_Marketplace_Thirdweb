@@ -4,6 +4,7 @@ import { AuctionListing, ChainId, DirectListing, ListingType, NATIVE_TOKENS } fr
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "./../../styles/Home.module.css";
+import Link from "next/link";
 
 const NFTInfos: NextPage = () => {
   const router = useRouter();
@@ -81,27 +82,35 @@ const NFTInfos: NextPage = () => {
     return <div>Listing not found</div>;
   }
   return (
-    <div className={styles.nftDetails}>
-      <ConnectWallet />
-      <img src={listing.asset.image ? listing.asset.image : ""} />
-      <h1>{listing.asset.name}</h1>
-      <p>
-        <span className={styles.bold}>Description:</span> {listing.asset.description}
-      </p>
-      <p>
-        <span className={styles.bold}>Seller:</span> {listing.sellerAddress}
-      </p>
-      <p>
-        <span className={styles.bold}>Listing Type:</span> {listing.type === 0 ? "Direct Listing" : "Auction Listing"}
-      </p>
-      <p>
-        <span className={styles.bold}>Buyout Price</span> {listing.buyoutCurrencyValuePerToken.displayValue} {listing.buyoutCurrencyValuePerToken.symbol}
-      </p>
-      <div>
-        <button onClick={buyNft}>Buy</button>
+    <div>
+      <Link href={"/"}>Go Back</Link>
+      <div className={styles.nftDetails}>
+        <div style={{ marginBottom: "50px" }}>
+          <ConnectWallet />
+        </div>
+
+        <img src={listing.asset.image ? listing.asset.image : ""} />
+        <h1>{listing.asset.name}</h1>
+        <p>
+          <span className={styles.bold}>Description:</span> {listing.asset.description}
+        </p>
+        <p>
+          <span className={styles.bold}>Seller:</span> {listing.sellerAddress}
+        </p>
+        <p>
+          <span className={styles.bold}>Listing Type:</span> {listing.type === 0 ? "Direct Listing" : "Auction Listing"}
+        </p>
+        <p>
+          <span className={styles.bold}>Buyout Price</span> {listing.buyoutCurrencyValuePerToken.displayValue} {listing.buyoutCurrencyValuePerToken.symbol}
+        </p>
         <div>
           <input type="text" name="bidAmount" onChange={(e) => setBidAmount(e.target.value)} placeholder="Amount" />
           <button onClick={createBidOrOffer}>Make Offer</button>
+        </div>
+        <div>
+          <button onClick={buyNft} className={styles.buyButton}>
+            Buy
+          </button>
         </div>
       </div>
     </div>
