@@ -1,17 +1,21 @@
 import { ConnectWallet, MediaRenderer, useContract, useActiveListings } from "@thirdweb-dev/react";
+import { Marketplace } from "@thirdweb-dev/sdk";
 import type { NextPage } from "next";
 import Link from "next/link";
 import styles from "./../../styles/Home.module.css";
-const ListNFT: NextPage = () => {
-  // Connect your marketplace smart contract here
-  const marketplace = useContract("0x6e87255EED7D470fa346495E02B256573E6754F7", "marketplace").contract;
-  const { data: listings, isLoading: loadingListings } = useActiveListings(marketplace);
+
+interface ListNFTProps {
+  marketplace: Marketplace | undefined;
+}
+
+const ListNFT: NextPage<ListNFTProps> = (props) => {
+  const { data: listings, isLoading: loadingListings } = useActiveListings(props.marketplace);
   return (
     <div>
       {loadingListings ? (
         <div>Loading listings...</div>
       ) : (
-        <div className={styles.nftList}>
+        <div className={styles.flexRow}>
           {listings?.map((listing) => (
             <div key={listing.id} style={{ width: "calc(100% / 3)", boxSizing: "border-box" }}>
               <h2>
